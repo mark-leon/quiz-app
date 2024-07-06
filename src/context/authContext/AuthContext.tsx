@@ -21,14 +21,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const login = (username: string, password: string) => {
     if (username === "admin" && password === "admin") {
       setUser({ username, role: "admin" });
+      return true;
     } else if (password === "user") {
       setUser({ username, role: "user" });
-    } else {
-      alert("Invalid credentials");
+      return true;
     }
+    return false;
   };
 
-  const logout = () => setUser(null);
+  const logout = () => {
+    setUser(null);
+  };
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

@@ -11,17 +11,11 @@ interface Question {
 }
 
 const Questions: React.FC = () => {
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const storedQuestions = loadFromLocalStorage<Question[]>("questions") || [];
+  const [questions, setQuestions] = useState<Question[]>(storedQuestions);
   const [newQuestion, setNewQuestion] = useState("");
   const [editingQuestion, setEditingQuestion] = useState<number | null>(null);
   const [editingText, setEditingText] = useState("");
-
-  useEffect(() => {
-    const storedQuestions = loadFromLocalStorage<Question[]>("questions");
-    if (storedQuestions) {
-      setQuestions(storedQuestions);
-    }
-  }, []);
 
   useEffect(() => {
     saveToLocalStorage("questions", questions);

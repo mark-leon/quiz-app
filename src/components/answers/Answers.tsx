@@ -12,16 +12,15 @@ interface Question {
 }
 
 const Answers: React.FC = () => {
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const storedQuestions = loadFromLocalStorage<Question[]>("questions") || [];
+  const [questions, setQuestions] = useState<Question[]>(storedQuestions);
+
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const { user } = useAuth();
 
   useEffect(() => {
-    const storedQuestions = loadFromLocalStorage<Question[]>("questions");
-    if (storedQuestions) {
-      setQuestions(storedQuestions);
-    }
-  }, []);
+    saveToLocalStorage("questions", questions);
+  }, [questions]);
 
   const handleAnswerChange = (questionId: number, answer: string) => {
     setAnswers({
@@ -46,12 +45,20 @@ const Answers: React.FC = () => {
       return q;
     });
     setQuestions(updatedQuestions);
-    saveToLocalStorage("questions", updatedQuestions);
   };
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl mb-4">Answer Questions</h2>
+      <div className="flex justify-around">
+        <h2 className="text-2xl mb-4">Answer Questions</h2>
+        <button
+          className="p-2 bg-blue-500 text-white"
+          //   onClick={() => logout()}
+        >
+          Logout
+        </button>
+      </div>
+
       {questions.map((q) => (
         <div key={q.id} className="mb-4">
           <p className="mb-2">{q.text}</p>
