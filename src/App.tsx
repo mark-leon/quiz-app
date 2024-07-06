@@ -13,8 +13,7 @@ import SignIn from "./components/auth/Signin";
 const PrivateRoute: React.FC<{
   component: React.FC;
   role: "admin" | "user";
-  path: string;
-}> = ({ component: Component, role, ...rest }) => {
+}> = ({ component: Component, role }) => {
   const { user } = useAuth();
 
   if (!user) {
@@ -25,7 +24,7 @@ const PrivateRoute: React.FC<{
     return <Navigate to="/signin" />;
   }
 
-  return <Component {...rest} />;
+  return <Component />;
 };
 
 const App: React.FC = () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   loadFromLocalStorage,
   saveToLocalStorage,
-} from "../../utils/localStorage";
+} from "../../utils/reusableFunction";
 
 interface Question {
   id: number;

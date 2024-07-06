@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+// import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/authContext/AuthContext";
 
 const SignIn: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     login(username, password);
     if (username === "admin" && password === "admin") {
-      history.push("/questions");
+      navigate("/questions");
     } else if (password === "user") {
-      history.push("/answers");
+      navigate("/answers");
     }
   };
 

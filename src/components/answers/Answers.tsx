@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import {
   loadFromLocalStorage,
   saveToLocalStorage,
-} from "../../utils/localStorage";
-import { useAuth } from "../../context/AuthContext";
+} from "../../utils/reusableFunction";
+import { useAuth } from "../../context/authContext/AuthContext";
 
 interface Question {
   id: number;
