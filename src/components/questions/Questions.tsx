@@ -3,6 +3,8 @@ import {
   loadFromLocalStorage,
   saveToLocalStorage,
 } from "../../utils/reusableFunction";
+import { useAuth } from "../../context/authContext/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface Question {
   id: number;
@@ -16,6 +18,8 @@ const Questions: React.FC = () => {
   const [newQuestion, setNewQuestion] = useState("");
   const [editingQuestion, setEditingQuestion] = useState<number | null>(null);
   const [editingText, setEditingText] = useState("");
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     saveToLocalStorage("questions", questions);
@@ -46,13 +50,23 @@ const Questions: React.FC = () => {
     setEditingText("");
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/signin");
+  };
+
   return (
     <div className="p-4">
-      <h2 className="text-2xl mb-4">Manage Questions</h2>
+      <div className="flex justify-around">
+        <h2 className="text-2xl mb-4">Manage Questions</h2>
+        <button className="p-2 bg-blue-500 text-white" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
       <input
         type="text"
         placeholder="Add new question"
-        className="w-full p-2 mb-2 border"
+        className="w-full p-2 mb-2 mt-8 border"
         value={newQuestion}
         onChange={(e) => setNewQuestion(e.target.value)}
       />
