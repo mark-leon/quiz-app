@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-// import { useHistory } from "react-router-dom";
 
 const SignIn: React.FC = () => {
   const [username, setUsername] = useState("");

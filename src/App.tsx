@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/authContext/AuthContext";
+import Questions from "./components/questions/Questions";
+import Answers from "./components/answers/Answers";
+import SignIn from "./components/auth/Signin";
 
-function App() {
+const PrivateRoute: React.FC<{
+  component: React.FC;
+  role: "admin" | "user";
+  path: string;
+}> = ({ component: Component, role, ...rest }) => {
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/signin" />;
+  }
+
+  if (user.role !== role) {
+    return <Navigate to="/signin" />;
+  }
+
+  return <Component {...rest} />;
+};
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/signin" element={<SignIn />} />
+          <Route
+            path="/questions"
+            element={<PrivateRoute component={Questions} role="admin" />}
+          />
+          <Route
+            path="/answers"
+            element={<PrivateRoute component={Answers} role="user" />}
+          />
+          <Route path="/" element={<Navigate to="/signin" />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
