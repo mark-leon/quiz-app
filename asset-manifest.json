@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/mark-leon/quiz-app/static/css/main.97389080.css",
+    "main.js": "/mark-leon/quiz-app/static/js/main.556d95d2.js",
+    "static/js/453.fc01f49c.chunk.js": "/mark-leon/quiz-app/static/js/453.fc01f49c.chunk.js",
+    "index.html": "/mark-leon/quiz-app/index.html",
+    "main.97389080.css.map": "/mark-leon/quiz-app/static/css/main.97389080.css.map",
+    "main.556d95d2.js.map": "/mark-leon/quiz-app/static/js/main.556d95d2.js.map",
+    "453.fc01f49c.chunk.js.map": "/mark-leon/quiz-app/static/js/453.fc01f49c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.97389080.css",
+    "static/js/main.556d95d2.js"
+  ]
+}
