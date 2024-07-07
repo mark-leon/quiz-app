@@ -26,6 +26,10 @@ const Questions: React.FC = () => {
   }, [questions]);
 
   const addQuestion = () => {
+    if (newQuestion === "") {
+      alert("Answer cannot be empty or start with a space.");
+      return;
+    }
     setQuestions([
       ...questions,
       { id: Date.now(), text: newQuestion, answers: [] },
@@ -43,6 +47,10 @@ const Questions: React.FC = () => {
   };
 
   const saveEdit = (id: number) => {
+    if (editingText === "") {
+      alert("Answer cannot be empty or start with a space.");
+      return;
+    }
     setQuestions(
       questions.map((q) => (q.id === id ? { ...q, text: editingText } : q))
     );
