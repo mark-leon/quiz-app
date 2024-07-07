@@ -21,7 +21,7 @@ const Answers: React.FC = () => {
     questionId: number;
     answerIndex: number;
   } | null>(null);
-  const [newAnswerText, setNewAnswerText] = useState("");
+  const [answerText, setAnswerText] = useState<{ [key: number]: string }>({});
 
   useEffect(() => {
     saveToLocalStorage("questions", questions);
@@ -38,7 +38,7 @@ const Answers: React.FC = () => {
     currentAnswer: string
   ) => {
     setEditingAnswer({ questionId, answerIndex });
-    setNewAnswerText(currentAnswer);
+    setAnswerText((prev) => ({ ...prev, [questionId]: currentAnswer }));
   };
 
   const saveEdit = () => {
@@ -48,7 +48,7 @@ const Answers: React.FC = () => {
         if (q.id === questionId) {
           const updatedAnswers = q.answers.map((a, index) => {
             if (index === answerIndex) {
-              return { ...a, answer: newAnswerText };
+              return { ...a, answer: answerText[questionId] || "" };
             }
             return a;
           });
@@ -58,8 +58,32 @@ const Answers: React.FC = () => {
       });
       setQuestions(updatedQuestions);
       setEditingAnswer(null);
-      setNewAnswerText("");
+      setAnswerText((prev) => ({ ...prev, [questionId]: "" }));
     }
+  };
+
+  const addAnswer = (questionId: number) => {
+    const updatedQuestions = questions.map((q) => {
+      if (q.id === questionId) {
+        return {
+          ...q,
+          answers: [
+            ...q.answers,
+            {
+              username: user?.username || "",
+              answer: answerText[questionId] || "",
+            },
+          ],
+        };
+      }
+      return q;
+    });
+    setQuestions(updatedQuestions);
+    setAnswerText((prev) => ({ ...prev, [questionId]: "" }));
+  };
+
+  const handleChange = (questionId: number, value: string) => {
+    setAnswerText((prev) => ({ ...prev, [questionId]: value }));
   };
 
   return (
@@ -78,7 +102,7 @@ const Answers: React.FC = () => {
           return (
             <li key={q.id} className="p-2 mb-2 border-b">
               <strong>{q.text}</strong>
-              {userAnswer && (
+              {userAnswer ? (
                 <div className="mt-2">
                   {editingAnswer &&
                   editingAnswer.questionId === q.id &&
@@ -87,8 +111,8 @@ const Answers: React.FC = () => {
                     <div>
                       <input
                         type="text"
-                        value={newAnswerText}
-                        onChange={(e) => setNewAnswerText(e.target.value)}
+                        value={answerText[q.id] || ""}
+                        onChange={(e) => handleChange(q.id, e.target.value)}
                         className="w-full p-2 mb-2 border"
                       />
                       <button
@@ -121,6 +145,21 @@ const Answers: React.FC = () => {
                       </button>
                     </div>
                   )}
+                </div>
+              ) : (
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    value={answerText[q.id] || ""}
+                    onChange={(e) => handleChange(q.id, e.target.value)}
+                    className="w-full p-2 mb-2 border"
+                  />
+                  <button
+                    className="p-2 bg-green-500 text-white"
+                    onClick={() => addAnswer(q.id)}
+                  >
+                    Submit
+                  </button>
                 </div>
               )}
             </li>
