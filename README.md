@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+The quiz app project is built with react, tailwind CSS and Typescript. The app has two types of user which is general user and admin. There can be one admin but multiple users. Each admin will login with username "admin" and password "admin". For users,
+each user will have the username="user1" (Example or any time) and password= "user". After login, the user value will be stored in auth context provider with username and role. Then Based on the
+the role there are two protected routes which decide the user and admin route. The admin can access the question route and he can new add questionsm edit or delete questions. The user can access the answer route and he can edit the answer. I have used localstorage for storing the data locally and to make changes to the state locally.
+
 ## Available Scripts
 
 In the project directory, you can run:
